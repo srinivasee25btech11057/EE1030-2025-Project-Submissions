@@ -1,0 +1,423 @@
+\documentclass[12pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{geometry}
+\geometry{a4paper, margin=1in}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{1em}
+
+\title{\textbf{Software Assignment Report}\\[10pt]
+\textbf{Image Compression using SVD}}
+\author{TAMMINEEDI RUSHIL SHANMUKHA SRINIVAS - EE25BTECH11057}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+\newpage
+
+\section*{Introduction to SVD}
+In the field of Linear Algebra, \textbf{Singular Value Decomposition (SVD)} is one of the most powerful and widely used Matrix Factorization techniques.It plays a fundamental role in various areas such as data science,machine learning , image processing and signal analysis. SVD helps in simplifying complex matrices into simpler and meaningful components,making it easier to understand the structure of data and perform operations like compression,noise reduction and dimensionally reduction.
+\section*{What is SVD ?}
+\textbf{SVD} is a method of decomposing any real or complex matrix into the product of three special matrices.For a given Matrix \textbf{A} of size $ m \times n $, \textbf{SVD} represents it as
+\begin{align}
+\textbf{A} = U \Sigma V^\top
+\end{align}
+where U is an $m \times m$ orthogonal matrix.
+
+$\Sigma$ is an $m \times n$ diagonal matrix whose diagonal elements are non-negative and are called \textbf{Singular Values}.
+
+$V^\top$ is the transpose of an $n \times n$ orthogonal matrix V.
+\section*{Usage of SVD in image compression}
+\textbf{Singular Value Decomposition} is widely used in image compression to reduce the storage size of images without significantly affecting their visual quality. In SVD-based compression, an image matrix is decomposed into three matrices U,$\Sigma$ and $V^\top$. By keeping only the largest singular values in $\Sigma$ and removing the smaller ones, we obtain a low-rank approximation of the original image. This greatly reduces the amount of data needed to store the image, while still preserving most of its important features and clarity. As a result, SVD provides an effective method for compressing images, maintaining a balance between reduced file size and acceptable image quality.
+
+\newpage
+\section*{Methods for Computing Eigenvalues and Eigenvectors}
+
+\subsection*{1. Power Method}
+The power method is an iterative technique for finding the dominant eigenvalue and its corresponding eigenvector of a matrix. It starts with an initial guess for the eigenvector and repeatedly applies the matrix to approximate the eigenvalue.
+
+\textbf{Advantages:}  
+- Simple and computationally inexpensive.  
+
+\textbf{Disadvantages:}  
+- Only retrieves the largest eigenvalue.  
+- Sensitive to matrix conditioning.
+
+\subsection*{2. Inverse Power Method}
+The inverse power method extends the power method to compute the smallest eigenvalue by inverting the matrix before applying iterations. It effectively locates eigenvalues near a given shift.
+
+\textbf{Advantages:}  
+- Finds eigenvalues closest to a chosen value.  
+
+\textbf{Disadvantages:}  
+- Requires matrix inversion, which is computationally expensive for large matrices.
+
+\subsection*{3. Jacobi Method}
+The Jacobi method iteratively diagonalizes a symmetric matrix by rotating it to eliminate off-diagonal elements. It is suitable for dense matrices and provides all eigenvalues simultaneously.
+
+\textbf{Advantages:}  
+- Simple and well-suited for symmetric matrices.  
+
+\textbf{Disadvantages:}  
+- Slow convergence for large matrices.  
+- Inefficient for sparse systems.
+
+\subsection*{4. QR Iteration Method}
+QR iteration is a powerful method for finding all eigenvalues of a matrix. It involves successive QR factorizations and matrix multiplications to reduce the matrix to a nearly diagonal form.
+
+\textbf{Advantages:}  
+- Robust and computes all eigenvalues.  
+- Applicable to any matrix.  
+
+\textbf{Disadvantages:}  
+- Computationally intensive for very large matrices.
+
+\subsection*{5. Arnoldi Iteration}
+The Arnoldi method extends the power method for large sparse matrices by approximating eigenvalues using Krylov subspaces. It is commonly used in numerical simulations.
+
+\textbf{Advantages:}  
+- Efficient for sparse systems.  
+- Finds multiple eigenvalues.  
+
+\textbf{Disadvantages:}  
+- Complex implementation.  
+- Requires good initial approximations.
+
+\section*{Power Iteration Method and its Advantages}
+The \textbf{Power Iteration method} is a simple and iterative numerical technique used to approximate the largest singular value and corresponding singular vectors of a matrix. Since Singular Value Decomposition (SVD) requires finding eigenvalues and eigenvectors of the matrices $\textbf{A}^\top$\textbf{A} or \textbf{A}$\textbf{A}^\top$
+, the Power Iteration method plays an important role in doing it.
+
+\textbf{Advantages of Power Iteration Method:}
+\begin{itemize}
+    \item Simple and Easy to Implement: The method involves basic matrix-vector operations, making it straightforward for manual or coded implementation.
+    \item Efficient for Large Matrices: Power Iteration is highly suitable when only the top singular values are needed, especially in large datasets or high-dimensional applications.
+    \item Memory Efficient: Since it works with vectors rather than full matrix decompositions, it uses much less memory compared to traditional SVD algorithms.
+\end{itemize}
+
+As Image compression deals mostly with top singular values Power Iteration method is better when compared with other methods like QR Iteration , Jacobi Method and Inverse Power Method etc.When compared to Jacobi method, it is also faster for non-symmetric matrices.It is more precise and more flexible when compared with other methods.So it is better method for \textbf{SVD} when compared with other methods. 
+
+\section*{Why I Used the Power Iteration Method}
+The Power Iteration method was chosen due to its  accuracy  and versatility in computing eigenvalues and eigenvectors. Unlike other methods, Power Iteration Method works efficiently for both symmetric and non-symmetric matrices, making it a generalized approach. Furthermore, Power Iteration Method is simple to learn and use and also minimize errors during computation. This method's ability to find  eigenvalues and eigenvectors quickly and with simple approach makes it the most suitable choice for this assignment.
+
+\section*{Summary of Strang's Video}
+According to \textbf{Singular Value Decomposition (SVD)} any rectangular matrix can be expressed as a product of 3 different matrices.If there exists a matrix \textbf{A} with size $m \times n$ then
+\begin{align}
+\textbf{A} = U \Sigma V^\top
+\end{align}
+where
+
+U and V are orthogonal Matrices (columns are orthonormal).
+
+Also U is an unitary matrix.
+
+Columns of U are eigen vectors of \textbf{A}$\textbf{A}^\top$ and columns of \textbf{V} are eigen vectors of $\textbf{A}^\top\textbf{A}$.
+
+$\Sigma$ is a diagonal matrix with its diagonal entries as non-negative singular values. 
+
+Singular Values are the square roots of corresponding Eigen values.
+
+\section*{Math Logic behind SVD for Image Compression}
+
+\textbf{Image as a Matrix:}
+We need to convert a grayscale image to a matrix $\textbf{A}$ of size $m \times n$
+\begin{align}
+A[i,j]=0.299R+0.587G+0.114B
+\end{align}
+This is the standard formula for converting RGB into grayscale.
+
+\textbf{Singular Value Decomposition (SVD) :}
+\begin{align}
+\textbf{A} = U \Sigma V^\top
+\end{align}
+\textbf{Low Rank Approximation :} Keep top K singular values and vectors.
+\begin{align}
+A_K = \sum_{i=1}^{K} \sigma_i \, u_i \, v_i^{T}
+\end{align}
+\textbf{Power Iteration to find Singular Values:}
+Let $\textbf{A}^\top\textbf{A}$ have eigen values 
+\begin{align}
+\lambda_1 > \lambda_2 > \cdots > \lambda_n \ge 0
+\end{align}
+and the corresponding orthonormal eigenvectors are
+\begin{align}
+e_1,\, e_2,\, \cdots,\, e_n
+\end{align}
+Let us take a random vector v.
+\begin{align}
+v = c_1e_1+c_2e_2+ \cdots +c_ne_n
+\end{align}
+Now
+\begin{align}
+\textbf{A}^\top\textbf{A}v = c_1\lambda_1e_1 + c_2\lambda_2e_2 + \cdots + c_n\lambda_ne_n
+\end{align}
+\begin{align}
+v_1 = \frac{\textbf{A}^\top\textbf{A}v}{\|\textbf{A}^\top\textbf{A}v\|}
+\end{align}
+Now continue the process by multiplying $\textbf{A}^\top$\textbf{A} with $v_1$ and dividing with the norm and repeat this process several times.
+
+We will get
+\begin{align}
+v_{K+1} = \frac{\textbf{A}^\top\textbf{A}v_K}{\|\textbf{A}^\top\textbf{A}v_K\|}
+\end{align}
+Now $v_{K+1}$ is the required eigen vector for greatest singular value.
+
+Now let
+\begin{align}
+y = \textbf{A}v
+\end{align}
+\begin{align}
+s = \|y\|_2 = \sqrt{\sum_{i} y_i^2}
+\end{align}
+\begin{align}
+z = \textbf{A}^\top y
+\end{align}
+\begin{align}
+v = \frac{z}{\|z\|}
+\end{align}
+Repeat this iteration multiple times until convergence.
+
+After converging v(right singular vector) we get $\sigma_1$ by
+\begin{align}
+\sigma_1 = \|\textbf{A}v\|
+\end{align}
+\begin{align}
+u_1 = \frac{\textbf{A}v}{\sigma_1}
+\end{align}
+Now apply Deflation and find the new \textbf{A}
+\begin{align}
+A_{\text{new}} = A_{\text{old}} - \sigma_k \, u_k \, v_k^{T}
+\end{align}
+Now Sum all top K components to reconstruct the image:
+\begin{align}
+C = \sum_{i=1}^{K} \sigma_i \, u_i \, v_i^{T}
+\end{align}
+This is the low-rank approximation of the original matrix \textbf{A}.
+
+Each element $C[i,j]$ is in $[0,1]$  multiply by 255 and clamp to 0–255.
+
+Now finally we can get the required output.
+\section*{Pseudo Code}
+These are the important functions of my c code.
+
+FUNCTION SVD(A, m, n, u, v, p, tol):
+
+    Create vector y of size m initialized to 0
+    
+    Create vector z of size n initialized to 0
+
+    Initialize vector v with random values
+
+    ps = 0 
+    
+    LOOP k from 1 to p:
+    
+        y = A * v
+        
+        s = norm(y)
+        
+        IF s == 0: EXIT LOOP
+
+        $z = \textbf{A}^\top * y$  
+        
+        nz = norm(z)
+        
+        IF nz == 0: EXIT LOOP
+
+        Normalize v = z / nz        
+
+        $IF s - ps \leq tol * (1 + ps): BREAK$
+        
+        ps = s
+        
+    END LOOP
+
+    y = A * v 
+    
+    u = y / s                       
+
+    Free y, z
+    
+    RETURN s
+    
+END FUNCTION
+
+FUNCTION subtractrank1(A, m, n, u, v, s):
+
+    FOR i = 1 to m: 
+        t = u[i] * s      
+        FOR j = 1 to n:     
+            A[i][j] = A[i][j] - t * v[j]
+            
+END FUNCTION
+
+
+\newpage
+\section*{Reconstructed Images for different K :}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.2\columnwidth]{figs/einstein/einstein.jpg} 
+   \caption { Original}
+   \label{Fig1}
+\end{figure}
+\begin{figure}[h!]
+\begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/einstein/einstein_k5.jpg} 
+   \caption { k = 5}
+   \label{Fig : second}
+   \end{subfigure}
+   \hfill
+  \begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/einstein/einstein_k20.jpg} 
+   \caption { k = 20}
+   \label{Fig : second}
+   \end{subfigure}
+   \hfill 
+ \begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/einstein/einstein_k50.jpg} 
+   \caption { k = 50}
+   \label{Fig : second}
+   \end{subfigure}
+   \hfill 
+ \begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/einstein/einstein_k100.jpg} 
+   \caption { k = 100}
+   \label{Fig : second}
+   \end{subfigure}
+\end{figure}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Input image name} & \textbf{k=5} & \textbf{k=20} & \textbf{k=50} & \textbf{k=100} \\
+\hline
+einstein.jpg & 4713.594016 & 2126.560684 & 880.503600 & 164.781299 \\
+\hline
+\end{tabular}
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.2\columnwidth]{figs/globe/globe.jpg} 
+   \caption { Original}
+   \label{Fig2}
+\end{figure}
+\begin{figure}[h!]
+\begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/globe/globe_k5.jpg} 
+   \caption { k = 5}
+   \label{Fig : second}
+   \end{subfigure}
+   \hfill
+  \begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/globe/globe_k20.jpg} 
+   \caption { k = 20}
+   \label{Fig : second}
+   \end{subfigure}
+   \hfill 
+ \begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/globe/globe_k50.jpg} 
+   \caption { k = 50}
+   \label{Fig : second}
+   \end{subfigure}
+   \hfill 
+ \begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/globe/globe_k100.jpg} 
+   \caption { k = 100}
+   \label{Fig : second}
+   \end{subfigure}
+\end{figure}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Input image name} & \textbf{k=5} & \textbf{k=20} & \textbf{k=50} & \textbf{k=100} \\
+\hline
+globe.jpg & 20704.275969 & 10634.417315 & 6185.644086 & 3672.902810 \\
+\hline
+\end{tabular}
+\newpage
+
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.2\columnwidth]{figs/greyscale/greyscale.png} 
+   \caption { Original}
+   \label{Fig2}
+\end{figure}
+\begin{figure}[h!]
+\begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/greyscale/greyscale_k5.jpg} 
+   \caption { k = 5}
+   \label{Fig : second}
+   \end{subfigure}
+   \hfill
+  \begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/greyscale/greyscale_k20.jpg} 
+   \caption { k = 20}
+   \label{Fig : second}
+   \end{subfigure}
+   \hfill 
+ \begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/greyscale/greyscale_k50.jpg} 
+   \caption { k = 50}
+   \label{Fig : second}
+   \end{subfigure}
+   \hfill 
+ \begin{subfigure}{0.2\textwidth}
+  \includegraphics[width=\textwidth]{figs/greyscale/greyscale_k100.jpg} 
+   \caption { k = 100}
+   \label{Fig : second}
+   \end{subfigure}
+\end{figure}
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Input image name} & \textbf{k=5} & \textbf{k=20} & \textbf{k=50} & \textbf{k=100} \\
+\hline
+greyscale.png & 11148.127344 & 3798.725768 & 1126.298728 & 440.916629 \\
+\hline
+\end{tabular}
+
+\section*{ERROR ANALYSIS}
+
+The \textbf{Frobenius norm} tells us how close the reconstructed matrix $\mathbf{A_K}$ is to the original matrix $\mathbf{A}$.
+\begin{align}
+E = \|\mathbf{A} - \mathbf{A_K}\|_F
+\end{align}
+where $\|.\|_F$ is the Frobenius Norm.
+
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+\textbf{Input image name} & \textbf{k=5} & \textbf{k=20} & \textbf{k=50} & \textbf{k=100} \\
+\hline
+einstein.jpg & 4713.594016 & 2126.560684 & 880.503600 & 164.781299 \\
+\hline
+globe.jpg & 20704.275969 & 10634.417315 & 6185.644086 & 3672.902810 \\
+\hline
+greyscale.png & 11148.127344 & 3798.725768 & 1126.298728 & 440.916629 \\
+\hline
+\end{tabular}
+
+\section*{Observation and Conclusion}
+\textbf{Observation:}
+
+1) Effect of Rank k on image quality
+\newline
+As the value of k increases,the reconstructed image becomes more similar to the original image.
+\newline
+For small values of k (k=5) the output image appears very blurred.
+\newline
+For medium values of k (k=20,k=50) the quality of output image increases when compared to the previous one.
+\newline
+For large values of k (k=100) the quality of output image is almost same as that of the original one.
+\newpage
+2) Error Measurement
+\newline
+The Frobenius norm error decreases as k increases.
+\newline
+The error for k=5 is highest and gradually decreases for k=20,50 and 100.
+
+\textbf{Conclusion:}
+Image Compression using \textbf{SVD} is an effective technique for reducing the storage while maintaining image quality.By selecting a lower rank k we will not get a clear output image but as k increases the output image will be more clear and have more quality.
+\newline
+\textbf{SVD} provides a trade-off between \textbf{Image quality} and \textbf{Compression Level}.
+\newline
+This technique is good because in image compression approximations are acceptable.So image compression using \textbf{Truncated SVD} is a very good approach.
+\end{document}
