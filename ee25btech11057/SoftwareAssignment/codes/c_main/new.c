@@ -24,8 +24,7 @@ double norm(int n,double *x){
   for(int j=0;j<n;j++)
   s = s + r[j]*v[j];
   y[i]=s;
-  }
-  }
+  }}
   
   //finding a new matrix by multiplying two matrices A^t and u
   void man(int m,int n,double *A,double *u,double *z){
